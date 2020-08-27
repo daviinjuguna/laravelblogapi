@@ -73,7 +73,7 @@ class ResetPasswordController extends Controller
         $user->pin = null;
         $user->save();
         return response([
-            'success'=>'password reset was successful',
+            'success'=>true,
             'message'=>'please login with your new password'
         ],200);
 
