@@ -70,6 +70,7 @@ class ResetPasswordController extends Controller
             ],404);
         }
         $user->password = Hash::make($request['password']);
+        $user->pin = null;
         $user->save();
         return response([
             'success'=>'password reset was successful',
