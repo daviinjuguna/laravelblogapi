@@ -19,17 +19,28 @@ class PostController extends Controller
         if($request->photo != ''){
             //choose a unique name for photo
             $photo = time().'.jpg';
-            file_put_contents('storage/posts/'.$photo,base64_decode($request->photo));
-            $post->photo = $photo;
+//            file_put_contents('storage/posts/'.$photo,base64_decode($request->photo));
+//            $post->photo = $photo;
+            $post->photo = $request->photo->store('uploads/post/image');
         }
-        //mistake
         $post->save();
         $post->user;
-        return response()->json([
-            'success' => true,
-            'message' => 'posted',
-            'post' => $post
-        ]);
+        $post['comments_count'] = count($post->comments);
+        //likes count
+        $post['likes_count'] = count($post->likes);
+        //check if users liked his own post
+        $post['self_like'] = false;
+        foreach($post->likes as $like){
+            if($like->user_id == Auth::user()->id){
+                $post['self_like'] = true;
+            }
+        }
+        return response()->json(
+//            'success' => true,
+//            'message' => 'posted',
+//            'post' => $post
+            $post
+        );
     }
 
 
@@ -63,7 +74,8 @@ class PostController extends Controller
 
         //check if post has photo to delete
         if($post->photo != ''){
-            Storage::delete('public/posts/'.$post->photo);
+//            Storage::delete('public/posts/'.$post->photo);
+            $post->photo = "";
         }
         $post->delete();
         return response()->json([
@@ -78,23 +90,24 @@ class PostController extends Controller
             //get user of post
             $post->user;
             //comments count
-            $post['commentsCount'] = count($post->comments);
+            $post['comments_count'] = count($post->comments);
             //likes count
-            $post['likesCount'] = count($post->likes);
+            $post['likes_count'] = count($post->likes);
             //check if users liked his own post
-            $post['selfLike'] = false;
+            $post['self_like'] = false;
             foreach($post->likes as $like){
                 if($like->user_id == Auth::user()->id){
-                    $post['selfLike'] = true;
+                    $post['self_like'] = true;
                 }
             }
 
         }
 
-        return response()->json([
-            'success' => true,
-            'posts' => $posts
-        ]);
+        return response()->json(
+//            'success' => true,
+//            'posts' => $posts
+                $posts
+        );
     }
 
 
@@ -103,9 +116,8 @@ class PostController extends Controller
         $posts = Post::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         $user = Auth::user();
         return response()->json([
-            'success' => true,
-            'posts' => $posts,
-            'user' => $user
+            $posts,
+            $user
         ]);
     }
 

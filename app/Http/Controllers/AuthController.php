@@ -82,11 +82,11 @@ class AuthController extends Controller
         $photo = '';
         //check if user provided photo
         if($request->photo!=''){
-            // user time for photo name to prevent name duplication
+//             user time for photo name to prevent name duplication
             $photo = time().'.jpg';
-            // decode photo string and save to storage/profiles
-            file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
-            $user->photo = $photo;
+//            // decode photo string and save to storage/profiles
+//            file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
+            $user->photo = $request->photo->store('uploads/user/image');
         }
 
         $user->update();

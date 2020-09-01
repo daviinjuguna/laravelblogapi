@@ -16,11 +16,12 @@ class CommentController extends Controller
         $comment->save();
         $comment->user;
 
-        return response()->json([
-            'success' => true,
-            'comment'=>$comment,
-            'message' => 'comment added'
-        ]);
+        return response()->json(
+//            'success' => true,
+//            'comment'=>$comment,
+//            'message' => 'comment added'
+            $comment
+        );
     }
 
     public function update(Request $request){
@@ -65,9 +66,8 @@ class CommentController extends Controller
             $comment->user;
         }
 
-        return response()->json([
-            'success' => true,
-            'comments' => $comments
-        ]);
+        return response()->json(
+            $comments
+        );
     }
 }
