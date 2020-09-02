@@ -116,8 +116,8 @@ class PostController extends Controller
         $posts = Post::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         $user = Auth::user();
         return response()->json([
-            $posts,
-            $user
+            "post" =>$posts,
+            "user"=> $user
         ]);
     }
 
