@@ -15,6 +15,10 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->desc = $request->desc;
 
+        $this->validate($request, [
+            'desc' => 'required'
+        ]);
+
         //check if post has photo
         if($request->photo != ''){
             //choose a unique name for photo
@@ -106,7 +110,7 @@ class PostController extends Controller
         return response()->json(
 //            'success' => true,
 //            'posts' => $posts
-                $posts
+            $posts
         );
     }
 
