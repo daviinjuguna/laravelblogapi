@@ -11,16 +11,13 @@ class CommentController extends Controller
     public function create(Request $request){
         $comment = new Comment;
         $comment->user_id = Auth::user()->id;
-        $comment->post_id = $request->id;
+        $comment->post_id = (int)$request->id;
         $comment->comment = $request->comment;
         $comment->save();
         $comment->user;
 
         return response()->json(
-//            'success' => true,
-//            'comment'=>$comment,
-//            'message' => 'comment added'
-            $comment
+            $comment,
         );
     }
 
@@ -67,7 +64,7 @@ class CommentController extends Controller
         }
 
         return response()->json(
-            $comments
+            $comments,
         );
     }
 }
