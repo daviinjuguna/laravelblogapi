@@ -57,10 +57,11 @@ class CommentController extends Controller
     }
 
     public function comments(Request $request){
-        $comments = Comment::where('post_id',$request->id)->get();
+        $comments = Comment::where('post_id',$request->id)->orderBy('id','desc')->get();
         //show user of each comment
         foreach($comments as $comment){
             $comment->user;
+//            $comment->
         }
 
         return response()->json(
