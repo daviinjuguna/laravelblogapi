@@ -11,7 +11,7 @@ class CommentController extends Controller
     public function create(Request $request){
         $comment = new Comment;
         $comment->user_id = Auth::user()->id;
-        $comment->post_id = $request->id;
+        $comment->post_id = (int)$request->id;
         $comment->comment = $request->comment;
         $comment->save();
         $comment->user;
@@ -60,7 +60,7 @@ class CommentController extends Controller
     }
 
     public function comments(Request $request){
-        $comments = Comment::where('post_id',$request->id)->get();
+        $comments = Comment::where('post_id',$request->id)->orderBy('id','desc')->get();
         //show user of each comment
         foreach($comments as $comment){
             $comment->user;
