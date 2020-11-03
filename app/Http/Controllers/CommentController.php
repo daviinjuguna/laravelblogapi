@@ -17,10 +17,7 @@ class CommentController extends Controller
         $comment->user;
 
         return response()->json(
-//            'success' => true,
-//            'comment'=>$comment,
-//            'message' => 'comment added'
-            $comment
+            $comment,
         );
     }
 
@@ -64,10 +61,11 @@ class CommentController extends Controller
         //show user of each comment
         foreach($comments as $comment){
             $comment->user;
+//            $comment->
         }
 
         return response()->json(
-            $comments
+            $comments,
         );
     }
 }

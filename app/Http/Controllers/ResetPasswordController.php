@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserPasswordPin;
 
 class ResetPasswordController extends Controller
 {
@@ -46,7 +48,7 @@ class ResetPasswordController extends Controller
         $user->pin = $pin;//save pin to database
         $user->save();
 
-        //Mail::to($user)->queue(new UserPasswordPin($pin));
+        Mail::to($user)->queue(new UserPasswordPin($pin));
         return response([
             'pin'=>$pin,
             'message'=>'a six digit code has been sent to your email'
@@ -70,7 +72,7 @@ class ResetPasswordController extends Controller
             ],404);
         }
         $user->password = Hash::make($request['password']);
-        $user->pin = null;
+        $user->pin = null;//set pin to null after using it
         $user->save();
         return response([
             'success'=>true,
