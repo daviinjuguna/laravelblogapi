@@ -48,7 +48,7 @@ class ResetPasswordController extends Controller
         $user->pin = $pin;//save pin to database
         $user->save();
 
-        Mail::to($user)->queue(new UserPasswordPin($pin));
+        // Mail::to($user)->queue(new UserPasswordPin($pin));
         return response([
             'pin'=>$pin,
             'message'=>'a six digit code has been sent to your email'
